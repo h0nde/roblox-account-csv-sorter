@@ -312,7 +312,7 @@ class Worker(Thread):
                 counter.add()
 
             except PunishmentDeactivationFailed as err:
-                print("Perm banned account")
+                print("Perm-banned account")
                 counter.add()
         
             except (DuplicateUser, UserAlreadyCompleted) as err:
