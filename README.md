@@ -18,7 +18,7 @@ The results are saved into `accounts.csv` in the following format:
 - Password
 - Robux Balance
 - Credit Balance
-- Total Group Funds (Robux)
+- Total Transferrable Group Funds (Robux)
 - Total Collectible RAP
 - Total Collectible Value
 - Premium Stipend
