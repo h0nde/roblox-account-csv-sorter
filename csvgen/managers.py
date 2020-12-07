@@ -95,8 +95,8 @@ class ConnectionManager:
         if isinstance(data, str):
             data = data.encode("UTF-8")
 
-        print(data)
-        
+        print(data, headers)
+
         try:
             conn = self.get_conn(parsed.hostname)
             conn.putrequest(method, url, True, True)
