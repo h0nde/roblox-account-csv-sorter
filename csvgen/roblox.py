@@ -9,8 +9,10 @@ RVT_RE = re.compile(r'<input name="__RequestVerificationToken" type="hidden" val
 
 def raise_errors(response):
     if response.headers.get("content-type", "").startswith("application/json"):
-        for err in response.json().get("errors", []):
-            raise APIError(err["code"], err["message"], response)
+        data = response.json()
+        if type(data) == dict and "errors" in data:
+            for err in data["errors"]:
+                raise APIError(err["code"], err["message"], response)
 
 class APIError(Exception):
     code: int
