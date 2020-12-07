@@ -111,7 +111,6 @@ class RobloxSession:
             if "agree-checkbox" in resp.text:
                 pid = PID_RE.search(resp.text).group(1)
                 _token = RVT_RE.search(resp.text).group(1)
-                print(pid, _token)
                 try:
                     with self.request(
                         "POST",
@@ -119,7 +118,7 @@ class RobloxSession:
                         {"__RequestVerificationToken": _token, "punishmentId": pid},
                         raise_on_punishment=False
                     ) as resp:
-                        print(dict(resp.headers))
+                        print(dict(resp.headers), resp.text)
                         if "/home" in resp.headers.get("location", ""):
                             return True
                 except Exception as err:
