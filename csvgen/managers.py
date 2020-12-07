@@ -99,6 +99,8 @@ class ConnectionManager:
             conn = self.get_conn(parsed.hostname)
             conn.putrequest(method, url, True, True)
             conn.putheader("Host", parsed.hostname)
+            if data:
+                conn.putheader("Content-Length", len(data))
             for k, v in headers.items():
                 conn.putheader(k, v)
             conn.endheaders()
