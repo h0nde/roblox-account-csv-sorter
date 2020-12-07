@@ -92,7 +92,7 @@ class RobloxSession:
         return resp
     
     def setup(self):
-        self.request("HEAD", "https://www.roblox.com/home")
+        self.request("HEAD", "https://www.roblox.com/my/messages")
         with self.request(
             "GET",
             "https://users.roblox.com/v1/users/authenticated"
