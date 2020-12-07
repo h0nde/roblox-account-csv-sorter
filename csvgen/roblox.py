@@ -122,8 +122,7 @@ class RobloxSession:
                     {"__RequestVerificationToken": _token, "punishmentId": pid},
                     raise_on_punishment=False
                 ) as resp:
-                    print(dict(resp.headers), resp.text)
-                    if "/home" in resp.headers.get("location", ""):
+                    if "location" in resp.headers and not "/not-approved" in resp.headers["location"]:
                         return True
 
         raise PunishmentDeactivationFailed
