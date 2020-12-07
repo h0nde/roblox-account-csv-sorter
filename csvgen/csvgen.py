@@ -309,7 +309,11 @@ class Worker(Thread):
                 complete_callback(cache)
                 counter.add()
 
-            except (DuplicateUser, PunishmentDeactivationFailed, UserAlreadyCompleted) as err:
+            except PunishmentDeactivationFailed as err:
+                print("Perm banned account")
+                counter.add()
+        
+            except (DuplicateUser, UserAlreadyCompleted) as err:
                 print("Duplicate line")
                 counter.add()
 
