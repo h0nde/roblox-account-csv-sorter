@@ -111,6 +111,7 @@ class RobloxSession:
             if "agree-checkbox" in resp.text:
                 pid = PID_RE.search(resp.text).group(1)
                 _token = RVT_RE.search(resp.text).group(1)
+                print(self.cookies[".ROBLOSECURITY"])
                 try:
                     with self.request(
                         "POST",
@@ -122,7 +123,6 @@ class RobloxSession:
                         if "/home" in resp.headers.get("location", ""):
                             return True
                 except Exception as err:
-                    print(self.cookies[".ROBLOSECURITY"])
                     print(err, type(err))
 
         raise PunishmentDeactivationFailed
