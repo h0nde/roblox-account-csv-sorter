@@ -35,7 +35,8 @@ WRITE_FIELDS = [
 
     (
         "Total Group Funds",
-        lambda c: sum([i["group"].get("robux", 0) for i in c.groups
+        lambda c: sum([i["group"].get("robux", 0)
+                       for i in c.groups
                        if i["role"]["rank"] >= 255])
     ),
 
