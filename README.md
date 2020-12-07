@@ -4,6 +4,9 @@ Generates a CSV from a list of .ROBLOSECURITY cookies (set in combos.txt)
 ## Speed
 With the default configuration of 500 threads, I personally was able to reach a peak of 20,000 checks-per-minute using fineproxy (us).
 
+## Temporary bans
+The tool will automatically attempt to reactivate banned accounts, where it is possible to do so.
+
 ## Supported formats (per line)
 - username:password:cookie
 - cookie
