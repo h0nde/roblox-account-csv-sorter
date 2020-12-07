@@ -9,7 +9,7 @@ import time
 import socket
 
 THREAD_COUNT = 500
-TASKS = ["robux", "premium", "collectibles", "settings", "pin", "group_funds"]
+TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups"]
 ITEM_VALUES = get_rolimons()
 WRITE_FIELDS = [
     (
