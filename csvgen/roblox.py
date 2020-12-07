@@ -2,6 +2,10 @@ from managers import ConnectionManager
 from urllib.parse import urlencode, urlparse
 import json
 import time
+import re
+
+PID_RE = re.compile(r'<input data-val="true" data-val-number="The field PunishmentId must be a number\." data-val-required="The PunishmentId field is required\." id="punishmentId" name="punishmentId" type="hidden" value="(\d+)" />')
+RVT_RE = re.compile(r'<input name="__RequestVerificationToken" type="hidden" value="(.+)" />')
 
 def raise_errors(response):
     if response.headers.get("content-type", "").startswith("application/json"):
@@ -99,4 +103,19 @@ class RobloxSession:
             self.display_name = data["displayName"]
 
     def reactivate(self):
-        print(self.cookies)
+        with self.request(
+            "GET",
+            "https://www.roblox.com/not-approved"
+        ) as resp:
+            if "Re-activate My Account":
+                pid = PID_RE.search(resp.text).group(1)
+                _token = RVT_RE.search(resp.text).group(1)
+                with self.request(
+                    "POST",
+                    "https://www.roblox.com/not-approved/reactivate",
+                    {"__RequestVerificationToken": _token, "punishmentId": pid}
+                ) as resp:
+                    if "/home" in resp.headers.get("location", ""):
+                        return True
+
+        return PunishmentDeactivationFailed
