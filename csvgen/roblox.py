@@ -32,6 +32,7 @@ class RobloxSession:
         self.id = None
         self.name = None
         self.display_name = None
+        self.above_13 = True
         self._manager = manager or ConnectionManager(**kw)
 
     def close(self):
@@ -69,6 +70,14 @@ class RobloxSession:
         return resp
     
     def setup(self):
+        with self.request(
+            "HEAD",
+            "https://www.roblox.com/home"
+        ) as resp:
+            if resp.headers.get("location", "").startswith("https://web."):
+                self.above_13 = True
+            print(resp.headers["location"])
+        
         with self.request(
             "GET",
             "https://users.roblox.com/v1/users/authenticated"
