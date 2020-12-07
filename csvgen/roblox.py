@@ -119,4 +119,4 @@ class RobloxSession:
                     if "/home" in resp.headers.get("location", ""):
                         return True
 
-        return PunishmentDeactivationFailed
+        raise PunishmentDeactivationFailed
