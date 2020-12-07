@@ -325,7 +325,7 @@ class Worker(Thread):
                     print("Unexpected API error:", err)
                     queue.put((cookie, password))
 
-            except (socket.timeout, HTTPException) as err:
+            except (socket.timeout, OSError, HTTPException) as err:
                 #print("HTTP error:", err, type(err))
                 queue.put((cookie, password))
                 self.new_identity()
