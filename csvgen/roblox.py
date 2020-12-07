@@ -7,7 +7,7 @@ import re
 PID_RE = re.compile(r'<input data-val="true" data-val-number="The field PunishmentId must be a number\." data-val-required="The PunishmentId field is required\." id="punishmentId" name="punishmentId" type="hidden" value="(\d+)" />')
 RVT_RE = re.compile(r'<input name="__RequestVerificationToken" type="hidden" value="(.+)" />')
 
-def raise_errors(response):
+def raise_api_errors(response):
     if response.headers.get("content-type", "").startswith("application/json"):
         data = response.json()
         if type(data) == dict and "errors" in data:
@@ -95,7 +95,7 @@ class RobloxSession:
             self.xsrf_token = new_xsrf
             return self.request(method, url, data, json, headers)
 
-        raise_errors(resp)
+        raise_api_errors(resp)
         return resp
     
     def setup(self):
