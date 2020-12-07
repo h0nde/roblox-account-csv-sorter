@@ -10,7 +10,7 @@ import socket
 import traceback
 
 THREAD_COUNT = 500
-TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups"]
+TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
 ITEM_VALUES = get_rolimons()
 WRITE_FIELDS = [
     (
@@ -31,6 +31,11 @@ WRITE_FIELDS = [
     (
         "Robux Balance",
         lambda c: c.robux
+    ),
+
+    (
+        "Credit Balance",
+        lambda c: c.credit
     ),
 
     (
@@ -158,6 +163,7 @@ class UserCache:
         self.previous_names = None
         self.pin_enabled = None
         self.groups = None
+        self.credit = None
 
     def is_done(self, name):
         return not name in self._tasks
@@ -307,6 +313,14 @@ class Worker(Thread):
                             groups.append(item)
                     cache.groups = groups
                     cache.complete("groups")
+                
+                if not cache.is_done("credit"):
+                    with session.request(
+                        "GET",
+                        "https://billing.roblox.com/v1/gamecard/userdata"
+                    ) as resp:
+                        cache.credit = resp.json()
+                    cache.complete("credit")
 
                 complete_callback(cache)
                 counter.add()
