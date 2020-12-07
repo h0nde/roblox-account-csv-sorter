@@ -57,7 +57,7 @@ class RobloxSession:
             )
         return headers
 
-    def request(self, method, url, data=None, json=None, headers={}):
+    def request(self, method, url, data=None, json=None, headers={}, raise_on_punishment=True):
         if not self.above_13:
             url = url.replace("www.", "web.")
 
@@ -78,10 +78,10 @@ class RobloxSession:
         if "location" in resp.headers:
             if resp.headers["location"].startswith("https://web.") and self.above_13:
                 self.above_13 = False
-                if not "/not-approved" in url and "/not-approved" in resp.headers["location"]:
+                if raise_on_punishment and "/not-approved" in resp.headers["location"]:
                     raise PunishmentRedirect
                 return self.request(method, resp.headers["location"], data, json, headers)
-            elif not "/not-approved" in url and "/not-approved" in resp.headers["location"]:
+            elif raise_on_punishment and "/not-approved" in resp.headers["location"]:
                 raise PunishmentRedirect
         
         if (new_xsrf := resp.headers.get("x-csrf-token")):
@@ -114,7 +114,8 @@ class RobloxSession:
                 with self.request(
                     "POST",
                     "https://www.roblox.com/not-approved/reactivate",
-                    {"__RequestVerificationToken": _token, "punishmentId": pid}
+                    {"__RequestVerificationToken": _token, "punishmentId": pid},
+                    raise_on_punishment=False
                 ) as resp:
                     print(resp.headers)
                     if "/home" in resp.headers.get("location", ""):
