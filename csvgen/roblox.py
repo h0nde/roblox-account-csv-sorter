@@ -54,6 +54,9 @@ class RobloxSession:
         return headers
 
     def request(self, method, url, data=None, json=None, headers={}):
+        if not self.above_13:
+            url = url.replace("www.", "web.")
+
         headers = {**self.headers, **self._cookie_header(), **headers}
 
         if json:
@@ -94,3 +97,6 @@ class RobloxSession:
             self.id = data["id"]
             self.name = data["name"]
             self.display_name = data["displayName"]
+
+    def reactivate(self):
+        print(self.cookies)
