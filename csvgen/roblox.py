@@ -107,6 +107,7 @@ class RobloxSession:
             "GET",
             "https://www.roblox.com/not-approved"
         ) as resp:
+            print(resp.text)
             if "agree-checkbox" in resp.text:
                 pid = PID_RE.search(resp.text).group(1)
                 _token = RVT_RE.search(resp.text).group(1)
