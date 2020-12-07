@@ -75,6 +75,11 @@ class RobloxSession:
 
         resp = self._manager.request(method, url, data, headers)
 
+        for k, v in resp.headers:
+            if k.lower() == "set-cookie":
+                ck, cv = v.split(";")[0].split("=", 1)
+                self.cookies[ck] = cv
+
         if "location" in resp.headers:
             if resp.headers["location"].startswith("https://web.") and self.above_13:
                 self.above_13 = False
