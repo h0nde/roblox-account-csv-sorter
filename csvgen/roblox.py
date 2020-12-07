@@ -75,7 +75,7 @@ class RobloxSession:
 
         resp = self._manager.request(method, url, data, headers)
 
-        for k, v in resp.headers:
+        for k, v in resp.headers.items():
             if k.lower() == "set-cookie":
                 ck, cv = v.split(";")[0].split("=", 1)
                 self.cookies[ck] = cv
