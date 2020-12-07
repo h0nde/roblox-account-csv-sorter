@@ -81,7 +81,7 @@ class RobloxSession:
                 if not "/not-approved" in url and "/not-approved" in resp.headers["location"]:
                     raise PunishmentRedirect
                 return self.request(method, resp.headers["location"], data, json, headers)
-            elif "/not-approved" in resp.headers["location"]:
+            elif not "/not-approved" in url and "/not-approved" in resp.headers["location"]:
                 raise PunishmentRedirect
         
         if (new_xsrf := resp.headers.get("x-csrf-token")):
@@ -107,7 +107,7 @@ class RobloxSession:
             "GET",
             "https://www.roblox.com/not-approved"
         ) as resp:
-            if "Re-activate My Account":
+            if "agree-checkbox" in resp.text:
                 pid = PID_RE.search(resp.text).group(1)
                 _token = RVT_RE.search(resp.text).group(1)
                 with self.request(
@@ -115,7 +115,6 @@ class RobloxSession:
                     "https://www.roblox.com/not-approved/reactivate",
                     {"__RequestVerificationToken": _token, "punishmentId": pid}
                 ) as resp:
-                    print(resp.headers)
                     if "/home" in resp.headers.get("location", ""):
                         return True
 
