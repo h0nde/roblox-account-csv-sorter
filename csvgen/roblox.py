@@ -76,7 +76,7 @@ class RobloxSession:
         ) as resp:
             if resp.headers.get("location", "").startswith("https://web."):
                 self.above_13 = True
-            print(resp.headers["location"])
+            print(resp.headers)
         
         with self.request(
             "GET",
