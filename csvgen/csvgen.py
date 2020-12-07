@@ -7,6 +7,7 @@ from queue import Empty
 from itertools import cycle
 import time
 import socket
+import traceback
 
 THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups"]
@@ -330,7 +331,7 @@ class Worker(Thread):
                 self.new_identity()
 
             except Exception as err:
-                print("Unexpected internal error:", err, type(err))
+                print("Unexpected internal error:", traceback.format_exc())
                 queue.put((cookie, password))
                 self.new_identity()
         
