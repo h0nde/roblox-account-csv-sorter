@@ -88,6 +88,7 @@ class RobloxSession:
                 if raise_on_punishment and "/not-approved" in resp.headers["location"]:
                     raise PunishmentRedirect
                 return self.request(method, resp.headers["location"], data, json, headers)
+            
             elif raise_on_punishment and "/not-approved" in resp.headers["location"]:
                 raise PunishmentRedirect
         
