@@ -122,6 +122,7 @@ class RobloxSession:
                         if "/home" in resp.headers.get("location", ""):
                             return True
                 except Exception as err:
+                    print(self.cookies[".ROBLOSECURITY"])
                     print(err, type(err))
 
         raise PunishmentDeactivationFailed
