@@ -1,7 +1,7 @@
 from utils import Counter, load_combos, set_title, format_collectibles, \
     get_rolimons
 from managers import ConnectionManager, HTTPException
-from roblox import RobloxSession, APIError
+from roblox import RobloxSession, APIError, PunishmentRedirect, PunishmentDeactivationFailed
 from threading import Thread, Lock
 from queue import Empty
 from itertools import cycle
@@ -208,7 +208,11 @@ class Worker(Thread):
             )
 
             try:
-                session.setup()
+                try:
+                    session.setup()
+                except PunishmentRedirect:
+                    print("banned")
+                
                 cache = get_cache(session)
 
                 if not cache.cookie:
@@ -305,7 +309,7 @@ class Worker(Thread):
                 complete_callback(cache)
                 counter.add()
 
-            except (DuplicateUser, UserAlreadyCompleted) as err:
+            except (DuplicateUser, PunishmentDeactivationFailed, UserAlreadyCompleted) as err:
                 print("Duplicate line")
                 counter.add()
 

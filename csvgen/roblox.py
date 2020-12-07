@@ -21,6 +21,9 @@ class APIError(Exception):
 class PunishmentRedirect(Exception):
     pass
 
+class PunishmentDeactivationFailed(Exception):
+    pass
+
 class RobloxSession:
     def __init__(self, cookie, user_agent=None, manager=None, **kw):
         self.cookies = {
@@ -82,14 +85,7 @@ class RobloxSession:
         return resp
     
     def setup(self):
-        with self.request(
-            "HEAD",
-            "https://www.roblox.com/home"
-        ) as resp:
-            if resp.headers.get("location", "").startswith("https://web."):
-                self.above_13 = True
-            print(resp.headers)
-        
+        self.request("HEAD", "https://www.roblox.com/home")
         with self.request(
             "GET",
             "https://users.roblox.com/v1/users/authenticated"
