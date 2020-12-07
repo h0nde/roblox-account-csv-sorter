@@ -118,7 +118,7 @@ class RobloxSession:
                     {"__RequestVerificationToken": _token, "punishmentId": pid},
                     raise_on_punishment=False
                 ) as resp:
-                    print(resp.headers)
+                    print(dict(resp.headers))
                     if "/home" in resp.headers.get("location", ""):
                         return True
 
