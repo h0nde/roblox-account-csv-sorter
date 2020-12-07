@@ -105,7 +105,8 @@ class RobloxSession:
     def reactivate(self):
         with self.request(
             "GET",
-            "https://www.roblox.com/not-approved"
+            "https://www.roblox.com/not-approved",
+            raise_on_punishment=False
         ) as resp:
             if "agree-checkbox" in resp.text:
                 pid = PID_RE.search(resp.text).group(1)
