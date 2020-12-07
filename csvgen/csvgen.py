@@ -330,7 +330,7 @@ class Worker(Thread):
                 counter.add()
         
             except (DuplicateUser, UserAlreadyCompleted) as err:
-                print("Duplicate line")
+                print("Duplicate session")
                 counter.add()
 
             except APIError as err:
