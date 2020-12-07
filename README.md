@@ -13,11 +13,14 @@ The results are saved into `accounts.csv` in the following format:
 - Id
 - Name
 - Password
-- Robux
+- Robux Balance
+- Credit Balance
+- Total Group Funds (Robux)
 - Total Collectible RAP
 - Total Collectible Value
 - Premium Stipend
 - Premium Expiry Date
 - PIN Enabled
+- Above 13
 - Collectibles <Name (RAP, [VALUE] [PROJ])>
 - .ROBLOSECURITY Cookie
