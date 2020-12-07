@@ -18,6 +18,9 @@ class APIError(Exception):
         self.message = message
         self.response = response
 
+class PunishmentRedirect(Exception):
+    pass
+
 class RobloxSession:
     def __init__(self, cookie, user_agent=None, manager=None, **kw):
         self.cookies = {
@@ -62,6 +65,15 @@ class RobloxSession:
 
         resp = self._manager.request(method, url, data, headers)
 
+        if "location" in resp.headers:
+            if resp.headers["location"].startswith("https://web.") and self.above_13:
+                self.above_13 = False
+                if "/not-approved" in resp.headers["location"]:
+                    raise PunishmentRedirect
+                return self.request(method, resp.headers["location"], data, json, headers)
+            elif "/not-approved" in resp.headers["location"]:
+                raise PunishmentRedirect
+        
         if (new_xsrf := resp.headers.get("x-csrf-token")):
             self.xsrf_token = new_xsrf
             return self.request(method, url, data, json, headers)
