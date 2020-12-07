@@ -212,7 +212,6 @@ class Worker(Thread):
                     session.setup()
                 except PunishmentRedirect:
                     session.reactivate()
-                    print("Reactivated!")
                 
                 cache = get_cache(session)
 
