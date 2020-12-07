@@ -115,6 +115,7 @@ class RobloxSession:
                     "https://www.roblox.com/not-approved/reactivate",
                     {"__RequestVerificationToken": _token, "punishmentId": pid}
                 ) as resp:
+                    print(resp.headers)
                     if "/home" in resp.headers.get("location", ""):
                         return True
 
