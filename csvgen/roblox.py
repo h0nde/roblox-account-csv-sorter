@@ -112,14 +112,17 @@ class RobloxSession:
                 pid = PID_RE.search(resp.text).group(1)
                 _token = RVT_RE.search(resp.text).group(1)
                 print(pid, _token)
-                with self.request(
-                    "POST",
-                    "https://www.roblox.com/not-approved/reactivate",
-                    {"__RequestVerificationToken": _token, "punishmentId": pid},
-                    raise_on_punishment=False
-                ) as resp:
-                    print(dict(resp.headers))
-                    if "/home" in resp.headers.get("location", ""):
-                        return True
+                try:
+                    with self.request(
+                        "POST",
+                        "https://www.roblox.com/not-approved/reactivate",
+                        {"__RequestVerificationToken": _token, "punishmentId": pid},
+                        raise_on_punishment=False
+                    ) as resp:
+                        print(dict(resp.headers))
+                        if "/home" in resp.headers.get("location", ""):
+                            return True
+                except Exception as err:
+                    print(err, type(err))
 
         raise PunishmentDeactivationFailed
