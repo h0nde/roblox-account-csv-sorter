@@ -78,7 +78,7 @@ class RobloxSession:
         if "location" in resp.headers:
             if resp.headers["location"].startswith("https://web.") and self.above_13:
                 self.above_13 = False
-                if "/not-approved" in resp.headers["location"]:
+                if not "/not-approved" in url and "/not-approved" in resp.headers["location"]:
                     raise PunishmentRedirect
                 return self.request(method, resp.headers["location"], data, json, headers)
             elif "/not-approved" in resp.headers["location"]:
