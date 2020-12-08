@@ -16,6 +16,7 @@ try:
 except FileNotFoundError:
     TO_FIND = []
 
+print(TO_FIND)
 ITEM_DATA = get_rolimons()
 THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "inventory", "settings", "pin", "groups", "credit"]
