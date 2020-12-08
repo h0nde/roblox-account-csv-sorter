@@ -3,6 +3,7 @@ from .base import BaseTask
 class Task(BaseTask):
     name = "inventory"
     asset_types = [
+        "Head",
         "Hat",
         "HairAccessory",
         "FaceAccessory",
