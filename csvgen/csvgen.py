@@ -1,5 +1,6 @@
 from utils import Counter, load_combos, set_title, format_collectibles, \
     get_rolimons
+from tasks import TASK_MAP
 from managers import ConnectionManager, HTTPException
 from roblox import RobloxSession, APIError, PunishmentRedirect, PunishmentDeactivationFailed
 from threading import Thread, Lock
@@ -118,8 +119,12 @@ class UserCache:
         self.groups = None
         self.credit = None
 
-    def is_done(self, name):
-        return not name in self._tasks
+    def is_done(self):
+        return not self._tasks
+
+    def get_next(self):
+        if self._tasks:
+            return self._tasks[0]
 
     def complete(self, name):
         if name in self._tasks:
@@ -187,93 +192,9 @@ class Worker(Thread):
                 if not cache.display_name:
                     cache.display_name = session.display_name
 
-                if not cache.is_done("robux"):
-                    with session.request(
-                        "GET",
-                        f"https://economy.roblox.com/v1/users/{session.id}/currency"
-                    ) as resp:
-                        cache.robux = resp.json()["robux"]
-                    cache.complete("robux")
-                
-                if not cache.is_done("premium"):
-                    with session.request(
-                        "GET",
-                        f"https://premiumfeatures.roblox.com/v1/users/{session.id}/subscriptions"
-                    ) as resp:
-                        data = resp.json().get("subscriptionProductModel")
-                        if data:
-                            cache.premium_stipend = data["robuxStipendAmount"]
-                            cache.premium_expiry_date = data["expiration"]
-                    cache.complete("premium")
-
-                if not cache.is_done("collectibles"):
-                    collectibles = []
-                    cursor = None
-                    while 1:
-                        q = "assetType=All&sortOrder=Asc&limit=100"
-                        if cursor:
-                            q += f"&cursor={cursor}"
-                        with session.request(
-                            "GET",
-                            f"https://inventory.roblox.com/v1/users/{session.id}/assets/collectibles?{q}"
-                        ) as resp:
-                            data = resp.json()
-                            for item in data.get("data", []):
-                                collectibles.append(item)
-                            cursor = data.get("nextPageCursor")
-                            if not cursor:
-                                break
-                    cache.collectibles = collectibles
-                    cache.complete("collectibles")
-                
-                if not cache.is_done("settings"):
-                    with session.request(
-                        "GET",
-                        "https://www.roblox.com/my/settings/json"
-                    ) as resp:
-                        data = resp.json()
-                        cache.admin = data["IsAdmin"]
-                        cache.email_address = data["UserEmail"]
-                        cache.email_verified = data["IsEmailVerified"]
-                        cache.above_13 = data["UserAbove13"]
-                        cache.previous_names = [x for x in data["PreviousUserNames"].split(", ") if x]
-                    cache.complete("settings")
-                
-                if not cache.is_done("pin"):
-                    with session.request(
-                        "GET",
-                        "https://auth.roblox.com/v1/account/pin"
-                    ) as resp:
-                        data = resp.json()
-                        cache.pin_enabled = data["isEnabled"]
-                    cache.complete("pin")
-
-                if not cache.is_done("groups"):
-                    groups = []
-                    with session.request(
-                        "GET",
-                        f"https://groups.roblox.com/v2/users/{session.id}/groups/roles"
-                    ) as resp:
-                        data = resp.json()["data"]
-                        for item in data:
-                            item["group"]["robux"] = 0
-                            if item["role"]["rank"] >= 255:
-                                with session.request(
-                                    "GET",
-                                    f"https://economy.roblox.com/v1/groups/{item['group']['id']}/currency"
-                                ) as resp:
-                                    item["group"]["robux"] = resp.json().get("robux", 0)
-                            groups.append(item)
-                    cache.groups = groups
-                    cache.complete("groups")
-                
-                if not cache.is_done("credit"):
-                    with session.request(
-                        "GET",
-                        "https://billing.roblox.com/v1/gamecard/userdata"
-                    ) as resp:
-                        cache.credit = resp.json()
-                    cache.complete("credit")
+                while (t := cache.get_next()):
+                    task = TASK_MAP[t](session, cache)
+                    task.complete()
 
                 complete_callback(cache)
                 counter.add()
