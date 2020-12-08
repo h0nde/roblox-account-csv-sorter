@@ -27,6 +27,7 @@ The results are saved into `accounts.csv` in the following format:
 - Total Collectible Value
 - Premium Stipend
 - Premium Expiry Date
+- Email Status (VERIFIED|UNVERIFIED|NO EMAIL)
 - PIN Enabled
 - Above 13
 - Found Items [<Name (ID)>, ..]
