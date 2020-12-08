@@ -1,1 +1,1 @@
-python csvgen/csvgen.py
+python csvgen
