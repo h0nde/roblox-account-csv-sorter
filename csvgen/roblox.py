@@ -1,4 +1,4 @@
-from managers import ConnectionManager
+from managers import ConnectionManager, Response
 from urllib.parse import urlencode, urlparse
 import json
 import time
@@ -15,11 +15,7 @@ def raise_api_errors(response):
                 raise APIError(err["code"], err["message"], response)
 
 class APIError(Exception):
-    code: int
-    message: str
-    response: "Response"
-
-    def __init__(self, code, message, response):
+    def __init__(self, code: int, message: str, response: Response):
         self.code = code
         self.message = message
         self.response = response
