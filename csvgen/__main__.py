@@ -10,7 +10,7 @@ import time
 import socket
 import traceback
 
-ITEM_VALUES = get_rolimons()
+ITEM_DATA = get_rolimons()
 THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
 WRITE_FIELDS = [
@@ -29,7 +29,7 @@ WRITE_FIELDS = [
                        for i in c.collectibles])
     ),
     ("Total Value",
-        lambda c: sum([ITEM_VALUES.get(i["assetId"], {}).get("value", i.get("recentAveragePrice", 0))
+        lambda c: sum([ITEM_DATA.get(i["assetId"], {}).get("value", i.get("recentAveragePrice", 0))
                        for i in c.collectibles])
     ),
     ("Premium Stipend", lambda c: c.premium_stipend),
@@ -37,7 +37,7 @@ WRITE_FIELDS = [
     ("PIN Enabled", lambda c: c.pin_enabled),
     ("Above 13", lambda c: c.above_13),
     ("Collectible List",
-        lambda c: format_collectibles(c.collectibles, ITEM_VALUES)
+        lambda c: format_collectibles(c.collectibles, ITEM_DATA)
     ),
     ("Cookie", lambda c: c.cookie)
 ]
