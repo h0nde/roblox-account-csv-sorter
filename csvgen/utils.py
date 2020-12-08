@@ -33,11 +33,10 @@ def load_combos(path: str) -> Queue:
         return q
 
 def find_and_format_items(inventory: list, to_find: list):
-    print([inventory[0]["assetId"]], to_find)
     return ", ".join(list(set([
         item["name"]
         for item in inventory
-        if item["assetId"] in to_find
+        if not item["assetId"] in to_find
     ])))
 
 def format_collectibles(collectibles: list, values: dict = None):
