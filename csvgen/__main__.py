@@ -1,5 +1,5 @@
 from utils import Counter, load_combos, set_title, format_collectibles, \
-    get_rolimons
+    find_and_format_items, get_rolimons
 from tasks import TASK_MAP
 from managers import ConnectionManager, HTTPException
 from roblox import RobloxSession, APIError, PunishmentRedirect, PunishmentDeactivationFailed
@@ -9,6 +9,12 @@ from itertools import cycle
 import time
 import socket
 import traceback
+
+try:
+    with open("find.txt") as f:
+        TO_FIND = list(map(int, f.read().splitlines()))
+except FileNotFoundError:
+    TO_FIND = []
 
 ITEM_DATA = get_rolimons()
 THREAD_COUNT = 500
@@ -37,6 +43,7 @@ WRITE_FIELDS = [
     ("Premium Expiration", lambda c: c.premium_expiry_date),
     ("PIN Enabled", lambda c: c.pin_enabled),
     ("Above 13", lambda c: c.above_13),
+    ("Found Items", lambda c: TO_FIND and find_and_format_items(c.inventory, TO_FIND)),
     ("Inventory Count", lambda c: len(c.inventory)),
     ("Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_DATA)

@@ -2,7 +2,18 @@ from .base import BaseTask
 
 class Task(BaseTask):
     name = "inventory"
-    asset_types = ["Hat"]
+    asset_types = [
+        "Hat",
+        "HairAccessory",
+        "FaceAccessory",
+        "NeckAccessory",
+        "ShoulderAccessory",
+        "FrontAccessory",
+        "BackAccessory",
+        "WaistAccessory",
+        "Gear",
+        "Face"
+    ]
 
     def complete(self):
         inventory = []
