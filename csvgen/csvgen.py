@@ -13,79 +13,32 @@ THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
 ITEM_VALUES = get_rolimons()
 WRITE_FIELDS = [
-    (
-        "Id",
-        lambda c: c.id
-    ),
-
-    (
-        "Name",
-        lambda c: c.name
-    ),
-
-    (
-        "Password",
-        lambda c: c.password
-    ),
-
-    (
-        "Robux Balance",
-        lambda c: c.robux
-    ),
-
-    (
-        "Credit Balance",
-        lambda c: c.credit
-    ),
-
-    (
-        "Total Group Funds",
+    ("Id", lambda c: c.id),
+    ("Name", lambda c: c.name),
+    ("Password", lambda c: c.password),
+    ("Robux Balance", lambda c: c.robux),
+    ("Credit Balance", lambda c: c.credit),
+    ("Total Group Funds",
         lambda c: sum([i["group"].get("robux", 0)
                        for i in c.groups
                        if i["role"]["rank"] >= 255])
     ),
-
-    (
-        "Total RAP",
+    ("Total RAP",
         lambda c: sum([i.get("recentAveragePrice", 0)
                        for i in c.collectibles])
     ),
-
-    (
-        "Total Value",
+    ("Total Value",
         lambda c: sum([ITEM_VALUES.get(i["assetId"], {}).get("value", i.get("recentAveragePrice", 0))
                        for i in c.collectibles])
     ),
-
-    (
-        "Premium Stipend",
-        lambda c: c.premium_stipend
-    ),
-
-    (
-        "Premium Expiration",
-        lambda c: c.premium_expiry_date
-    ),
-
-    (
-        "PIN Enabled",
-        lambda c: c.pin_enabled
-    ),
-
-    (
-        "Above 13",
-        lambda c: c.above_13
-    ),
-
-    (
-        "Collectible List",
+    ("Premium Stipend", lambda c: c.premium_stipend),
+    ("Premium Expiration", lambda c: c.premium_expiry_date),
+    ("PIN Enabled", lambda c: c.pin_enabled),
+    ("Above 13", lambda c: c.above_13),
+    ("Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_VALUES)
     ),
-
-    (
-        "Cookie",
-        lambda c: c.cookie
-    )
+    ("Cookie", lambda c: c.cookie)
 ]
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
 
