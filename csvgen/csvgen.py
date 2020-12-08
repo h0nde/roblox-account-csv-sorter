@@ -9,9 +9,9 @@ import time
 import socket
 import traceback
 
+ITEM_VALUES = get_rolimons()
 THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
-ITEM_VALUES = get_rolimons()
 WRITE_FIELDS = [
     ("Id", lambda c: c.id),
     ("Name", lambda c: c.name),
