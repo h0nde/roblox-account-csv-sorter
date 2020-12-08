@@ -37,7 +37,7 @@ WRITE_FIELDS = [
     ("Premium Expiration", lambda c: c.premium_expiry_date),
     ("PIN Enabled", lambda c: c.pin_enabled),
     ("Above 13", lambda c: c.above_13),
-    ("Hat Count", lambda c: len(c.inventory)),
+    ("Inventory Count", lambda c: len(c.inventory)),
     ("Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_DATA)
     ),
