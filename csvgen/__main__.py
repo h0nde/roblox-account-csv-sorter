@@ -12,7 +12,7 @@ import traceback
 
 ITEM_DATA = get_rolimons()
 THREAD_COUNT = 500
-TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
+TASKS = ["robux", "premium", "collectibles", "inventory", "settings", "pin", "groups", "credit"]
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
 WRITE_FIELDS = [
     ("Id", lambda c: c.id),
@@ -37,6 +37,7 @@ WRITE_FIELDS = [
     ("Premium Expiration", lambda c: c.premium_expiry_date),
     ("PIN Enabled", lambda c: c.pin_enabled),
     ("Above 13", lambda c: c.above_13),
+    ("Hat Count", lambda c: len(c.inventory)),
     ("Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_DATA)
     ),
@@ -118,6 +119,7 @@ class UserCache:
         self.pin_enabled = None
         self.groups = None
         self.credit = None
+        self.inventory = None
 
     def is_done(self):
         return not self._tasks

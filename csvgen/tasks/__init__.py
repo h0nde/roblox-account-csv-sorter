@@ -5,6 +5,7 @@ from . import settings
 from . import pin
 from . import groups
 from . import credit
+from . import inventory
 
 TASK_MAP = {
     "robux": robux.Task,
@@ -13,5 +14,6 @@ TASK_MAP = {
     "settings": settings.Task,
     "pin": pin.Task,
     "groups": groups.Task,
-    "credit": credit.Task
+    "credit": credit.Task,
+    "inventory": inventory.Task
 }
