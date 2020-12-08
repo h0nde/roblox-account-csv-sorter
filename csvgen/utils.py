@@ -1,7 +1,7 @@
 import re
 import time
-import ctypes
 import json
+import os
 from managers import ConnectionManager
 from queue import Queue
 
@@ -9,7 +9,11 @@ _CMT = r"\_\|WARNING:?-DO-NOT-SHARE-THIS\.--Sharing-this-will-allow-someone-to-l
 C_RE = re.compile(r"^(?:" + _CMT + r")?([A-F0-9]{300,})$")
 UPC_RE = re.compile(r"^(?:[A-z0-9]{2,50}):([^:]{3,}):(?:" + _CMT + r")?([A-F0-9]{300,})$")
 
-set_title = ctypes.windll.kernel32.SetConsoleTitleW
+if os.name == "nt":
+    import ctypes
+    set_title = ctypes.windll.kernel32.SetConsoleTitleW
+else:
+    set_title = lambda t: print(t)
 
 def line_to_combo(line: str) -> tuple:
     if m := UPC_RE.match(line):
