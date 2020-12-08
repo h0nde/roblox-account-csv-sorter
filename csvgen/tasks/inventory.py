@@ -1,7 +1,7 @@
 from .base import BaseTask
 
 class Task(BaseTask):
-    name = "collectibles"
+    name = "inventory"
     asset_types = ["Hat"]
 
     def complete(self):
