@@ -1,5 +1,5 @@
 # roblox-account-csv-gen
-Generates a CSV from a list of .ROBLOSECURITY cookies (set in combos.txt)
+Python >=3.8 CSV generator for Roblox accounts.
 
 ## Speed
 With the default configuration of 500 threads, I personally was able to reach a peak of 15,000 checks-per-minute using fineproxy (us).
