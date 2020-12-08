@@ -36,7 +36,7 @@ def find_and_format_items(inventory: list, to_find: list):
     return ", ".join(list(set([
         f"{item['name']} ({item['assetId']})"
         for item in inventory
-        if not item["assetId"] in to_find
+        if item["assetId"] in to_find
     ])))
 
 def format_collectibles(collectibles: list, values: dict = None):
