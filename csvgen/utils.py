@@ -34,7 +34,7 @@ def load_combos(path: str) -> Queue:
 
 def find_and_format_items(inventory: list, to_find: list):
     return ", ".join(list(set([
-        item["name"]
+        f"{item['name']} ({item['assetId']})"
         for item in inventory
         if not item["assetId"] in to_find
     ])))
