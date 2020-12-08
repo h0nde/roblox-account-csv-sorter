@@ -41,7 +41,7 @@ WRITE_FIELDS = [
     ),
     ("Premium Stipend", lambda c: c.premium_stipend),
     ("Premium Expiration", lambda c: c.premium_expiry_date),
-    ("Email Status", lambda c: "Verified" if c.email_verified else ("Unverified" if c.email_address else "No Email")),
+    ("Email Status", lambda c: "VERIFIED" if c.email_verified else ("UNVERIFIED" if c.email_address else "NO EMAIL")),
     ("PIN Enabled", lambda c: c.pin_enabled),
     ("Above 13", lambda c: c.above_13),
     ("Found Items",
