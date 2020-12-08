@@ -13,6 +13,7 @@ import traceback
 ITEM_DATA = get_rolimons()
 THREAD_COUNT = 500
 TASKS = ["robux", "premium", "collectibles", "settings", "pin", "groups", "credit"]
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
 WRITE_FIELDS = [
     ("Id", lambda c: c.id),
     ("Name", lambda c: c.name),
@@ -41,7 +42,6 @@ WRITE_FIELDS = [
     ),
     ("Cookie", lambda c: c.cookie)
 ]
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
 
 queue = None
 for fname in ["cracked.txt", "combos.txt", "combos_and_cookies.txt", "cookies.txt"]:
