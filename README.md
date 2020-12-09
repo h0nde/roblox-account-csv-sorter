@@ -10,7 +10,7 @@ Python 3.8 or later
 - Run csvgen.sh, upon completion open `accounts.csv` with your software of choice
 
 ## Speed
-With the default configuration of 500 threads, I personally was able to reach a peak of 15,000 checks-per-minute using fineproxy (us).
+With the default configuration of 500 threads, I personally was able to reach a peak of 13,000 checks-per-minute using fineproxy (us) (as of 2020-12-09).
 
 ## Item finder
 To find accounts with specific items, you can create a file called `find.txt` and place your list of asset IDs in it (seperated by line).
