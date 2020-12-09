@@ -39,6 +39,6 @@ The results are saved into `accounts.csv` in the following format:
 - PIN Enabled
 - Above 13
 - Found Items [<Name (ID)>, ..]
-- Inventory Count (hats only)
+- Inventory Count (heads, hats, accessories, gears, faces)
 - Collectibles [<Name (RAP, [VALUE] [PROJ])>, ..]
 - .ROBLOSECURITY Cookie
