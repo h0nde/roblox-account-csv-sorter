@@ -1,5 +1,5 @@
 # roblox-account-csv-gen
-Python >=3.8 CSV generator for Roblox accounts.
+CSV file generator for Roblox accounts.
 
 ## Requirements
 Python 3.8 or later
