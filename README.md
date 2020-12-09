@@ -1,6 +1,14 @@
 # roblox-account-csv-gen
 Python >=3.8 CSV generator for Roblox accounts.
 
+## Requirements
+Python 3.8 or later
+
+## Usage
+Fill proxies.txt with your list of proxies.
+Fill combos.txt with your list of cookies (or user:pass:cookies)
+Run csvgen.sh, upon completion open accounts.csv with your software of choice.
+
 ## Speed
 With the default configuration of 500 threads, I personally was able to reach a peak of 15,000 checks-per-minute using fineproxy (us).
 
