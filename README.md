@@ -12,11 +12,11 @@ Python 3.8 or later
 ## Speed
 With the default configuration of 500 threads, I personally was able to reach a peak of 15,000 checks-per-minute using fineproxy (us).
 
-## find.txt
+## Item finder
 To find accounts with specific items, you can create a file called `find.txt` and place your list of asset IDs in it (seperated by line).
 Discovered items will pop up in the `Found Items` row.
 
-## Temporary bans
+## Account reactivation
 The tool will automatically attempt to reactivate banned accounts, where it is possible to do so.
 
 ## Supported formats (per line)
