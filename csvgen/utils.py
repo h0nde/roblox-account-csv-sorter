@@ -82,7 +82,7 @@ class Counter:
     
     def _filter_points(self):
         self._points = list(filter(
-            lambda p: (time.time()-p)<=60,
+            lambda p: (time.time()-p) <= self.timeframe,
             self._points))
            
     def cpm(self) -> int:
