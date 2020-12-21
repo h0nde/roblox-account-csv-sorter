@@ -1,4 +1,4 @@
-# roblox-account-csv-gen
+# roblox-account-csv-sorter
 Tool for sorting lists of Roblox accounts.
 
 ## Requirements
