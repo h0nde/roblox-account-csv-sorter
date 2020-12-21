@@ -1,5 +1,5 @@
 # roblox-account-csv-gen
-Tool for organizing and filtering lists of Roblox accounts.
+Tool for sorting lists of Roblox accounts.
 
 ## Requirements
 Python 3.8 or later
