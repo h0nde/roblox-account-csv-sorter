@@ -7,7 +7,7 @@ from queue import Queue
 
 _CMT = r"\_\|WARNING:?-DO-NOT-SHARE-THIS\.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items\.\|\_"
 C_RE = re.compile(r"^(?:" + _CMT + r")?([A-F0-9]{300,})$")
-UPC_RE = re.compile(r"^(?:[A-z0-9]{2,50}):([^:]{3,}):(?:" + _CMT + r")?([A-F0-9]{300,})$")
+UPC_RE = re.compile(r"^(?:[A-z0-9@\._ ]{2,50}):([^:]{3,}):(?:" + _CMT + r")?([A-F0-9]{300,})$")
 
 if os.name == "nt":
     import ctypes
