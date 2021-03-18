@@ -40,5 +40,6 @@ The results are saved into `accounts.csv` in the following format:
 - Above 13
 - Found Items [<Name (ID)>, ..]
 - Inventory Count (heads, hats, accessories, gears, faces)
+- Owned/Claimable groups
 - Collectibles [<Name (RAP, [VALUE] [PROJ])>, ..]
 - .ROBLOSECURITY Cookie
