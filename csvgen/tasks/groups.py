@@ -11,7 +11,7 @@ class Task(BaseTask):
         ) as resp:
             data = resp.json()["data"]
             for item in data:
-                item["group"]["owner"] = self.session.get(
+                item["group"]["owner"] = self.session.request(
                     "GET",
                     f"https://groups.roblox.com/v1/groups/{item['group']['id']}"
                 ).json().get("owner")
