@@ -11,6 +11,10 @@ class Task(BaseTask):
         ) as resp:
             data = resp.json()["data"]
             for item in data:
+                item["group"]["owner"] = self.session.get(
+                    "GET",
+                    f"https://groups.roblox.com/v1/groups/{item['group']['id']}"
+                ).json().get("owner")
                 item["group"]["robux"] = 0
                 if item["role"]["rank"] >= 255:
                     with self.session.request(

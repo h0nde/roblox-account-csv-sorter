@@ -47,6 +47,11 @@ WRITE_FIELDS = [
     ("Found Items",
         lambda c: TO_FIND and find_and_format_items(c.inventory, TO_FIND)),
     ("Inventory Count", lambda c: len(c.inventory)),
+    ("Owned/Claimable groups", lambda c: len(
+        i["group"]
+        for i in c.groups
+        if i["role"]["rank"] >= 255 or not i["group"].get("owner")
+    )),
     ("Collectible List",
         lambda c: format_collectibles(c.collectibles, ITEM_DATA)
     ),
